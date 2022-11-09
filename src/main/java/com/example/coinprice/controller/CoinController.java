@@ -1,7 +1,7 @@
 package com.example.coinprice.controller;
 
-import com.example.coinprice.coin.Coin;
-import com.example.coinprice.dao.CoinDaoService;
+import com.example.coinprice.model.Coin;
+import com.example.coinprice.service.CoinDaoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;

@@ -1,33 +1,54 @@
 package com.example.coinprice.controller;
 
-import com.example.coinprice.coin.Coin;
-import com.example.coinprice.coin.TestCoin;
-import com.example.coinprice.dao.TestCoinDaoService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import com.example.coinprice.model.TestCoin;
+import com.example.coinprice.response.ResUserInfoVo;
+import com.example.coinprice.service.TestCoinDaoService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.HttpURLConnection;
 import java.net.URI;
+import java.util.List;
 
 
 @RestController
 @RequestMapping("/application/x-www-form-urlencoded")
-public class TestCoinController {
+public class  TestCoinController {
 
     private static TestCoinDaoService serviced;
 
-    @GetMapping(value = "/Test")
-    public String Test (@RequestHeader("") String value) {
-        System.out.println("application/x-www-form-urlencoded" + value);
-        return value;
+    public TestCoinController(TestCoinDaoService serviced) {
+        this.serviced = serviced;
     }
 
+
+    @PostMapping("/api.lbkex.com/v1/ticker.dot2")
+    public String retrieveAllTestCoin(@Valid @RequestHeader ("application/x-www-form-urlencoded"){
+
+
+        URI location =  ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/api.lbkex.com/v1/user_info.do")
+                .buildAndExpand(savedCoin.getSymbol())
+                .toUri();
+        return data.toString();
+    }
+
+//  getmapping으로 name : symbol type : String 해서 포스트매핑에 있는 헤더값을 여기로 넣고 호출,,
+    @GetMapping(value = "/api.lbkex.com/v1/ticker.do")
+    public ResponseEntity<Object> Test (@RequestHeader("") TestCoin testcoin) {
+        TestCoin savedCoin = serviced.saved(testcoin);
+
+        URI location =  ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/api.lbkex.com/v1/user_info.do")
+                .buildAndExpand(savedCoin.getSymbol())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+/*
     @PostMapping (value = "/Test/api.lbkex.com")
     public ResponseEntity<Object> createCoin(@Valid @RequestBody TestCoin testcoin) {
         TestCoin savedCoin = serviced.saved(testcoin);
@@ -39,19 +60,27 @@ public class TestCoinController {
 
         return ResponseEntity.created(location).build();
     }
+*/
 
-    @PostMapping("/v2/supplement/api_Restrictions.do")
-    public Test register(@RequestHeader("contentType:application/x-www-form-urlencoded") String name) {
-        Test newTest = new Test(counter.incrementAndGet(), name);
-        return testRepository.addTest(newTest);
+    @PostMapping(headers = "/v2/supplement/api_Restrictions.do")
+    public ResponseEntity<Object> createTest (@Valid @RequestHeader HttpHeaders header) {
+//        Test savedTest =serviced.saved(test);
+
+//        URI location =  ServletUriComponentsBuilder.fromCurrentRequest()
+//                .path("/{Symbol}")
+//                .buildAndExpand(savedTest.getSymbol())
+//                .toUri();
+
+       return ResponseEntity.ok().body(header.getFirst( "/v2/supplement/api_Restrictions.do"));
     }
 
-    @PutMapping("/users/{id}")
-    @Operation(summary = "Update a user's name",
-            responses = {
-                    @ApiResponse(responseCode = "200",
-                            description = "Returns the updated user",
-                            content = @Content(mediaType = "application/x-www-form-urlencoded",
-                                    schema = @Schema(implementation = User.class)))
-            })
+//    @PutMapping("/users/{id}")
+//    @Operation(summary = "Update a user's name",
+//            responses = {
+//                    @ApiResponse(responseCode = "200",
+//                            description = "Returns the updated user",
+//                            content = @Content(mediaType = "application/x-www-form-urlencoded",
+//                                    schema = @Schema(implementation = User.class)))
+//            });
+
 }

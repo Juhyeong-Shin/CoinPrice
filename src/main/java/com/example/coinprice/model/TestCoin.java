@@ -1,4 +1,4 @@
-package com.example.coinprice.coin;
+package com.example.coinprice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

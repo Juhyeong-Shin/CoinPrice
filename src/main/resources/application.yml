@@ -1,10 +1,6 @@
-server:
-  port: 9000
-
-logging:
-  level:
-    org.springframework: DEBUG
-
 spring:
-  messages:
-    basename: messages
+  server: 9000
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher

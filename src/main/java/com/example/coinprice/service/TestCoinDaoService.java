@@ -1,11 +1,12 @@
-package com.example.coinprice.dao;
+package com.example.coinprice.service;
 
-import com.example.coinprice.coin.Coin;
-import com.example.coinprice.coin.TestCoin;
+import com.example.coinprice.model.TestCoin;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class TestCoinDaoService {
     private static List<TestCoin> testcoins = new ArrayList<>();
 
@@ -20,7 +21,7 @@ public class TestCoinDaoService {
     }
 
     public TestCoin saved(TestCoin testcoin) {
-        if (testcoin.getNum() == 0) {
+        if (testcoin.getSymbol() == null) {
             testcoin.setNum(++testcoinsCount);
         }
 
