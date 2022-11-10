@@ -26,18 +26,17 @@ public class  TestCoinController {
 
 
     @PostMapping("/api.lbkex.com/v1/ticker.dot2")
-    public String retrieveAllTestCoin(@Valid @RequestHeader ("application/x-www-form-urlencoded"){
-
+    public String retrieveAllTestCoin(@Valid @RequestHeader ("application/x-www-form-urlencoded") ) {
 
         URI location =  ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/api.lbkex.com/v1/user_info.do")
                 .buildAndExpand(savedCoin.getSymbol())
                 .toUri();
-        return data.toString();
+        return String;
     }
 
 //  getmapping으로 name : symbol type : String 해서 포스트매핑에 있는 헤더값을 여기로 넣고 호출,,
-    @GetMapping(value = "/api.lbkex.com/v1/ticker.do")
+    @GetMapping(value = "/v2/accuracy.do")
     public ResponseEntity<Object> Test (@RequestHeader("") TestCoin testcoin) {
         TestCoin savedCoin = serviced.saved(testcoin);
 
